@@ -1,0 +1,510 @@
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* MENCEGAH SCROLL LAYAR HP */
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            touch-action: none;
+        }
+
+        body {
+            background: #0f172a; /* Navy Matte Gelap */
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* --- BACKGROUND PARTIKEL --- */
+        .decorations {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .sparkle-particle {
+            position: absolute;
+            background: transparent;
+            animation: floatAndFlash 5s ease-in-out infinite;
+            color: #38bdf8;
+            font-size: 14px;
+            opacity: 0.3;
+        }
+
+        @keyframes floatAndFlash {
+            0% { opacity: 0; transform: scale(0.5) translateY(0); }
+            50% { opacity: 0.4; transform: scale(1) translateY(-30px); }
+            100% { opacity: 0; transform: scale(0.5) translateY(-60px); }
+        }
+
+        .tap-heart {
+            position: absolute;
+            color: #38bdf8;
+            font-size: 20px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: heartBurst 0.8s ease-out forwards;
+        }
+
+        @keyframes heartBurst {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -120%) scale(1.4); }
+        }
+
+        /* --- TAMPILAN AWAL: AMPLOP --- */
+        .intro-container {
+            position: fixed;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 360px;
+            height: 380px;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease-in-out;
+        }
+
+        .envelope {
+            width: 340px;
+            height: 220px;
+            background: #1e293b;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-radius: 0 0 10px 10px;
+            position: absolute;
+            bottom: 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .envelope-text {
+            color: #38bdf8;
+            font-weight: bold;
+            font-size: 1rem;
+            z-index: 5;
+            letter-spacing: 1px;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 30px;
+            left: 10px;
+            width: 0;
+            height: 0;
+            border-left: 170px solid transparent;
+            border-right: 170px solid transparent;
+            border-bottom: 130px solid #0f172a;
+            transform-origin: bottom;
+            transition: transform 0.4s ease;
+            z-index: 3;
+        }
+
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            width: 310px;
+            height: 200px;
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .letter h3 { font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: #0f172a; margin-bottom: 8px; }
+        .letter p { font-size: 0.82rem; color: #4a5568; line-height: 1.4; }
+
+        .intro-container.open .envelope-flap { transform: rotateX(180deg); z-index: 0; }
+        .intro-container.open .envelope-text { opacity: 0; pointer-events: none; }
+        .intro-container.open .letter { transform: translateY(-140px); height: 240px; z-index: 10; }
+
+        .btn-open-album {
+            opacity: 0;
+            visibility: hidden;
+            margin-top: 15px;
+            background: #1e293b;
+            color: #38bdf8;
+            border: 1px solid #38bdf8;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .intro-container.open .btn-open-album { 
+            opacity: 1; visibility: visible; transition-delay: 0.5s;
+        }
+
+        /* --- CONTAINER UTAMA APLIKASI --- */
+        .book-container {
+            width: 90vw;
+            max-width: 400px;
+            height: 82vh;
+            max-height: 620px;
+            position: relative;
+            z-index: 5;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* --- HEADER ATAS (NAVIGASI & SETTING MODERN) --- */
+        .header-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .navigation-bar {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #94a3b8;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn.active-nav {
+            color: #ffffff; background: #3b82f6; border-color: #3b82f6;
+        }
+
+        /* TOMBOL SETTING ATAS MODERN */
+        .top-menu-btn {
+            width: 38px;
+            height: 38px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #38bdf8;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .top-menu-btn:active { transform: scale(0.9); }
+
+        /* --- AREA LAYAR BUKU --- */
+        .book {
+            width: 100%;
+            height: calc(100% - 50px);
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+
+        /* PERBAIKAN: EFEK TRANSISI SLIDE BUKU */
+        .page {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            background: #fafafa;
+            overflow: hidden;
+            transform: translateX(100vw);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+
+        .page.active-page { transform: translateX(0); z-index: 10; }
+        .page.prev-page { transform: translateX(-100vw); z-index: 1; }
+
+        /* --- BOTTOM SHEET (MODERN GLASSMORPHISM NAVY) --- */
+        .bottom-sheet-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .bottom-sheet-overlay.open { opacity: 1; pointer-events: auto; }
+
+        .bottom-sheet {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60vh;
+            background: rgba(30, 41, 59, 0.95); /* Deep Navy Glass */
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px 30px 0 0;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            color: #f8fafc;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+        }
+        .bottom-sheet-overlay.open .bottom-sheet { transform: translateY(0); }
+
+        .sheet-handle {
+            width: 45px;
+            height: 5px;
+            background: #475569;
+            border-radius: 3px;
+            margin: 0 auto 20px auto;
+        }
+
+        /* Navigasi Pil/Tab iOS Style */
+        .sheet-nav {
+            display: flex;
+            background: #0f172a;
+            padding: 4px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+        }
+        .sheet-nav-item {
+            flex: 1;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 8px 5px;
+            border-radius: 10px;
+            transition: all 0.25s;
+        }
+        .sheet-nav-item.active-tab {
+            color: #ffffff;
+            background: #38bdf8;
+            box-shadow: 0 4px 10px rgba(56, 189, 248, 0.2);
+        }
+
+        /* Konten Tab */
+        .sheet-content-wrapper { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+        .sheet-tab-panel { display: none; width: 100%; }
+        .sheet-tab-panel.active-panel { display: block; }
+
+        .sheet-tab-panel h2 { font-size: 1.05rem; color: #38bdf8; margin-bottom: 16px; font-weight: 700; }
+
+        /* KARTU KONTEN MODERN (MODERN CARD STYLE) */
+        .modern-card {
+            background: #0f172a;
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.03);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* --- MUSIC PANEL DI SETTING --- */
+        .music-panel-box {
+            background: #0f172a;
+            border-radius: 20px;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .music-disc-large {
+            width: 80px;
+            height: 80px;
+            background: #1e293b;
+            border: 3px dashed #38bdf8;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.2rem;
+            animation: spin 4s linear infinite;
+            animation-play-state: paused;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .btn-music-control {
+            background: #38bdf8;
+            color: #0f172a;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 50px;
+             Sherwood;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+            transition: transform 0.2s;
+        }
+        .btn-music-control:active { transform: scale(0.95); }
+
+        /* --- TAMPILAN COUNTDOWN HARI --- */
+        .counter-wrapper { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+        .counter-card {
+            background: #0f172a;
+            border-radius: 14px; padding: 12px 18px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .counter-val { font-size: 1.25rem; font-weight: 700; color: #38bdf8; font-family: monospace; }
+        .counter-lbl { font-size: 0.8rem; color: #94a3b8; }
+
+        /* --- TAMPILAN BUCKET LIST --- */
+        .bucket-container { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+        .bucket-item {
+            background: #0f172a; padding: 12px 14px; border-radius: 12px;
+            display: flex; align-items: center; gap: 12px; cursor: pointer;
+            border-left: 4px solid #475569; transition: all 0.2s; font-size: 0.85rem;
+        }
+        .bucket-item input { accent-color: #38bdf8; width: 16px; height: 16px; }
+        .bucket-item.checked { border-left-color: #38bdf8; opacity: 0.5; }
+        .bucket-item.checked span { text-decoration: line-through; color: #94a3b8; }
+
+        /* --- TAMPILAN KIRIM PAP --- */
+        .upload-zone {
+            width: 100%; border: 2px dashed #334155; border-radius: 14px;
+            padding: 20px 10px; text-align: center; cursor: pointer;
+            background: #0f172a; display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .preview-box {
+            width: 100%; height: 120px; border-radius: 10px; overflow: hidden;
+            display: none; margin-top: 12px; border: 1px solid #334155;
+        }
+        .preview-box img { width: 100%; height: 100%; object-fit: cover; }
+        .btn-wa-send {
+            width: 100%; background: #16a34a; color: white; border: none; padding: 12px;
+            border-radius: 50px; font-weight: bold; font-size: 0.85rem; margin-top: 12px;
+            cursor: pointer; display: none; align-items: center; justify-content: center; gap: 6px;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+        }
+
+        /* --- LAYER LOADING --- */
+        .layer-loader {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0f172a; border-radius: 16px;
+            z-index: 99; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+        }
+        .layer-loader.show-loading { opacity: 1; pointer-events: auto; }
+        .heart-spinner { font-size: 2.2rem; animation: beatLoad 0.8s infinite ease-in-out; }
+        .loader-text { color: #38bdf8; font-size: 0.8rem; margin-top: 10px; font-weight: bold; }
+        @keyframes beatLoad { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        /* --- REVISI: ANIMASI & DEKORASI SAMPUL DEPAN (PEKAT & MATTE) --- */
+        .cover-front {
+            background: #0f172a !important; /* Diperkuat Navy Pekat */
+            border-left: 12px solid #050a14; 
+            flex-direction: column; justify-content: center;
+            align-items: center; padding: 20px; display: flex;
+            position: relative;
+        }
+        .cover-front h1 {
+            font-family: 'Dancing Script', cursive; font-size: 2.6rem; color: #38bdf8; text-align: center;
+            animation: floatTitle 3s ease-in-out infinite;
+        }
+        @keyframes floatTitle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        /* BOX LABEL NAMA NAVY PEKAT + SHADOW TEBAL */
+        .name-tag-box {
+            background: #050a14; /* Super Navy Pekat */
+            padding: 14px 28px;
+            border-radius: 18px;
+            margin-top: 15px;
+            border: 1px solid #1e293b;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 2px 4px rgba(255,255,255,0.05);
+            animation: pulseBox 4s ease-in-out infinite;
+        }
+        @keyframes pulseBox {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        .brand-title {
+            font-size: 1.8rem !important; font-weight: 800; color: #ffffff; letter-spacing: 3px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .book-icon { 
+            font-size: 3.5rem; margin: 20px 0; 
+            animation: heartbeat 2s infinite ease-in-out;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .page-inside { background: #ffffff; color: #334155; padding: 15px; flex-direction: column; justify-content: space-between; display: flex; }
+        .page-inside h2 { font-size: 1.1rem; color: #0f172a; border-bottom: 2px dashed #cbd5e1; padding-bottom: 4px; margin-bottom: 6px; }
+
+        /* --- SLIDER INTERNAL FOTO --- */
+        .photo-horizontal-container { width: 100%; height: 76%; position: relative; overflow: hidden; display: flex; align-items: center; touch-action: pan-x; }
+        .photo-track { display: flex; width: 100%; height: 100%; transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1); }
+        .polaroid-frame {
+            width: 100%; height: 100%; flex-shrink: 0; background: white; padding: 8px 8px 14px 8px;
+            border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .image-container-fix { width: 100%; height: 82%; overflow: hidden; border-radius: 4px; background: #f1f5f9; }
+        .image-container-fix img { width: 100%; height: 100%; object-fit: cover; }
+        .polaroid-caption { text-align: center; margin-top: 4px; font-family: 'Dancing Script', cursive; font-size: 1rem; color: #334155; }
+
+        /* TOMBOL NAVIGASI HALAMAN */
+        .page-edge-trigger {
+            position: absolute; bottom: 12px; width: 45px; height: 35px; z-index: 40; background: rgba(15, 23, 42, 0.05);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: #64748b; font-weight: bold; cursor: pointer;
+        }
+        .edge-left { left: 15px; } .edge-right { right: 15px; }
+        .slider-dots { display: flex; justify-content: center; gap: 4px; margin-top: 4px; }
+        .dot { width: 5px; height: 5px; background: #cbd5e1; border-radius: 50%; transition: all 0.2s; }
+        .dot.active { background: #1e293b; width: 12px; border-radius: 10px; }
+
+        /* COVER BELAKANG */
+        .cover-back {
+            background: #0f172a; border-right: 12px solid #1e293b;
+            flex-direction: column; justify-content: center; align-items: center; color: #94a3b8; padding: 20px; text-align: center; display: flex;
+        }
+        .salting-box { font-size: 3rem; margin-bottom: 8px; }
+        .salting-text { font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: #38bdf8; margin-bottom: 8px; }
+        .date-badge { margin-top: 25px; font-size: 0.68rem; color: #475569; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 8px; }
+        .page-hint { text-align: center; font-size: 0.75rem; color: #38bdf8; font-weight: bold; cursor: pointer; border: 1px solid #38bdf8; padding: 6px 16px; border-radius: 30px; }
+        .swipe-info { text-align: center; font-size: 0.68rem; color: #94a3b8; margin-top: 2px; }
