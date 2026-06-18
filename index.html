@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Our Secret Gallery Book 📖💙</title>
+      <link rel="stylesheet" href="style.css">
+ 
+</head>
+<body onclick="createTapHeart(event)">
+
+    <audio id="albumMusic" loop src="musik.mp3"></audio>
+    <div class="decorations" id="decorationsArea"></div>
+
+    <!-- TAMPILAN AWAL: AMPLOP -->
+    <div class="intro-container" id="introWrapper">
+        <div class="envelope-flap" id="flap"></div>
+        <div class="envelope" onclick="openEnvelope()">
+            <span class="envelope-text">Ketuk untuk Buka Surat 💌</span>
+        </div>
+        <div class="letter" id="letterContent">
+            <h3>For My Favorite Person ✨</h3>
+            <p>Aku kumpulin semua pap kiriman kamu di satu tempat rahasia ini biar gak bakal hilang selamanya. Buka yuk!</p>
+            <button class="btn-open-album" onclick="startApp()">Buka Album Buku 📖</button>
+        </div>
+    </div>
+
+    <!-- CONTAINER UTAMA BUKU -->
+    <div class="book-container" id="bookBox">
+        
+        <!-- HEADER ATAS (NAVIGASI & TOMBOL SETTING) -->
+        <div class="header-bar" id="topNavHeader">
+            <div class="navigation-bar">
+                <button class="nav-btn active-nav" id="nav-1" onclick="jumpToPageWithLoading(1)">📸 Harian</button>
+                <button class="nav-btn" id="nav-2" onclick="jumpToPageWithLoading(2)">👩‍❤️‍👨 Fotbar</button>
+                <button class="nav-btn" id="nav-3" onclick="jumpToPageWithLoading(3)">🗺️ Jalan</button>
+            </div>
+            <!-- Tombol Menu Setting Modern -->
+            <div class="top-menu-btn" onclick="openBottomSheet()">⚙️</div>
+        </div>
+
+        <div class="book">
+            <!-- LAYER LOADING INTERNAL -->
+            <div class="layer-loader" id="layerLoader">
+                <div class="heart-spinner">💙</div>
+                <div class="loader-text">Membuka Memori...</div>
+            </div>
+            
+            <!-- COVER DEPAN -->
+            <div class="page cover-front active-page" id="page-0" onclick="bookNextPage()">
+                <div style="background: rgba(255,255,255,0.05); padding: 4px 14px; border-radius: 30px; font-size: 0.7rem; color: #94a3b8; letter-spacing: 1px; margin-bottom: 10px;">Edisi Spesial</div>
+                <h1>Our Visual Diary</h1>
+                <div class="book-icon">💙</div>
+                
+                <!-- Label Nama Pekat Ber-shadow -->
+                <div class="name-tag-box">
+                    <h2 class="brand-title">DARA AJA</h2>
+                </div>
+
+                <div style="margin-top: 25px; display: flex; gap: 8px; opacity: 0.5;">
+                    <span style="font-size: 0.75rem; color: #f8fafc;">✨ Memory Connected ✨</span>
+                </div>
+
+                <p class="page-hint" style="margin-top: 35px;">Ketuk untuk Membuka Album ➔</p>
+            </div>
+
+            <!-- HALAMAN 1: HARIAN -->
+            <div class="page page-inside" id="page-1">
+                <h2>🌸 Foto Harian</h2>
+                <div class="photo-horizontal-container">
+                    <div class="photo-track" id="track1">
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Senyum harian favoritku 1 🤍</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Pap tercantik hari ini! 2 🥰</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Gemesnya ga ada tanding 3 ✨</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Moodbooster terbaikku 4 🌸</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Lagi apa ya sekarang? 5 🤔</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Cantiknya konsisten 6 🔋</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Bagian favorit dari hariku 7 🧸</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Gak bosen liatinnya 8 💕</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Dunia indah kalau ada kamu 9 🪐</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Penutup hari yang manis 10 🌙</div></div>
+                    </div>
+                </div>
+                <div class="slider-dots" id="dots-container-1">
+                    <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                </div>
+                <p class="swipe-info">◄ Geser Kanan/Kiri pada Foto ►</p>
+                <div class="page-edge-trigger edge-left" onclick="bookPrevPage()">◀</div>
+                <div class="page-edge-trigger edge-right" onclick="bookNextPage()">▶</div>
+            </div>
+
+            <!-- HALAMAN 2: FOTBAR -->
+            <div class="page page-inside" id="page-2">
+                <h2>✨ Foto Fotbar</h2>
+                <div class="photo-horizontal-container">
+                    <div class="photo-track" id="track2">
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Pas berdua duniaku lengkap 1 🔋</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Gemesnya barengan terus 2 🎀</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Momen seru bareng kamu 3 🍕</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Saling melengkapi selalu 4 🧩</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Tertawa bareng itu candu 5 😂</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Kompak terus ya kita 6 🤝</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Satu frame penuh cinta 7 ❤️</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Kenangan manis tersimpan 8 📸</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Foto favorit sepanjang masa 9 🏆</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Selamanya mau gini terus 10 🔐</div></div>
+                    </div>
+                </div>
+                <div class="slider-dots" id="dots-container-2">
+                    <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                </div>
+                <p class="swipe-info">◄ Geser Kanan/Kiri pada Foto ►</p>
+                <div class="page-edge-trigger edge-left" onclick="bookPrevPage()">◀</div>
+                <div class="page-edge-trigger edge-right" onclick="bookNextPage()">▶</div>
+            </div>
+
+            <!-- HALAMAN 3: JALAN JALAN -->
+            <div class="page page-inside" id="page-3">
+                <h2>🗺️ Foto Jalan-Jalan</h2>
+                <div class="photo-horizontal-container">
+                    <div class="photo-track" id="track3">
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Petualangan seru bareng kamu 1 🚀</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Tempat terbaik di sampingmu 2 🪐</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Menjelajahi dunia berdua 3 🗺️</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Setiap perjalanan berkesan 4 🌄</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Jalan-jalan penuh tawa 5 🍦</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Dunia terasa lebih luas 6 🗺️</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Momen indah di luar sana 7 🎡</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Menikmati sore hari indah 8 🌇</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Gak mau jalurnya berakhir 9 🛣️</div></div>
+                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Next trip ke mana lagi? 10 ✈️</div></div>
+                    </div>
+                </div>
+                <div class="slider-dots" id="dots-container-3">
+                    <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                </div>
+                <p class="swipe-info">◄ Geser Kanan/Kiri pada Foto ►</p>
+                <div class="page-edge-trigger edge-left" onclick="bookPrevPage()">◀</div>
+                <div class="page-edge-trigger edge-right" onclick="bookNextPage()">▶</div>
+            </div>
+
+            <!-- HALAMAN 4: COVER BELAKANG -->
+            <div class="page cover-back" id="page-4">
+                <div class="salting-box">💓</div>
+                <h3 class="salting-text">Kamu Tahu Gak?</h3>
+                <p style="font-size: 0.85rem; line-height: 1.5; color: #f8fafc; padding: 0 10px;">
+                    "Tiap kali kamu kirim pap, duniaku mendadak berhenti berputar sebentar, soalnya fokusku langsung pindah ke senyuman kamu semua... 🥰"
+                </p>
+                <div class="date-badge">Dibuat Berdua Penuh Cinta 📅</div>
+                <div class="page-edge-trigger edge-left" onclick="bookPrevPage()" style="background: rgba(255,255,255,0.1); color: #38bdf8;">◀</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- OVERLAY & BOTTOM SHEET POPUP MODERN GLASSMORPHISM -->
+    <div class="bottom-sheet-overlay" id="sheetOverlay" onclick="closeBottomSheet()">
+        <div class="bottom-sheet" onclick="event.stopPropagation()">
+            <div class="sheet-handle"></div>
+            
+            <!-- NAVIGASI PIL MODEREN DI DALAM POPUP -->
+            <div class="sheet-nav">
+                <div class="sheet-nav-item active-tab" id="tab-time" onclick="switchSheetTab('time')">⏳ Hari</div>
+                <div class="sheet-nav-item" id="tab-list" onclick="switchSheetTab('list')">📝 List</div>
+                <div class="sheet-nav-item" id="tab-pap" onclick="switchSheetTab('pap')">📲 Pap</div>
+                <div class="sheet-nav-item" id="tab-music" onclick="switchSheetTab('music')">🎵 Musik</div>
+            </div>
+
+            <!-- KONTEN INTERNAL POPUP -->
+            <div class="sheet-content-wrapper">
+                
+                <!-- TAB 1: COUNTDOWN -->
+                <div class="sheet-tab-panel active-panel" id="panel-time">
+                    <h2>⏳ Waktu Kebersamaan</h2>
+                    <div class="counter-wrapper">
+                        <div class="counter-card"><span class="counter-lbl">Hari Berdua</span><span class="counter-val" id="c-days">00</span></div>
+                        <div class="counter-card"><span class="counter-lbl">Jam</span><span class="counter-val" id="c-hours">00</span></div>
+                        <div class="counter-card"><span class="counter-lbl">Menit</span><span class="counter-val" id="c-mins">00</span></div>
+                        <div class="counter-card"><span class="counter-lbl">Detik</span><span class="counter-val" id="c-secs">00</span></div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: BUCKET LIST -->
+                <div class="sheet-tab-panel" id="panel-list">
+                    <h2>📝 Our Love Bucket List</h2>
+                    <div class="bucket-container">
+                        <div class="bucket-item" onclick="toggleCheck(this)"><input type="checkbox"> <span>Nonton bioskop drakor berdua 🎬</span></div>
+                        <div class="bucket-item" onclick="toggleCheck(this)"><input type="checkbox"> <span>Nyobain es krim rasa unik viral 🍦</span></div>
+                        <div class="bucket-item" onclick="toggleCheck(this)"><input type="checkbox"> <span>Jalan sore menikmati sunset di pantai 🌅</span></div>
+                        <div class="bucket-item" onclick="toggleCheck(this)"><input type="checkbox"> <span>Masak makanan kesukaan bareng 🍳</span></div>
+                        <div class="bucket-item" onclick="toggleCheck(this)"><input type="checkbox"> <span>Foto box gaya lucu/gemes 📸</span></div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: KIRIM PAP -->
+                <div class="sheet-tab-panel" id="panel-pap">
+                    <h2>📲 Kirim Pap Instan</h2>
+                    <div class="upload-zone" onclick="triggerFileSelect()">
+                        <span style="font-size: 1.5rem;">🖼️</span>
+                        <span style="font-size: 0.8rem; color: #38bdf8; font-weight: bold;">Pilih Foto dari Galeri</span>
+                        <input type="file" id="photoInput" accept="image/*" style="display: none;" onchange="handlePhotoSelect(event)">
+                    </div>
+                    <div class="preview-box" id="previewContainer">
+                        <img id="imgPreview" src="" alt="Preview Pap">
+                    </div>
+                    <button class="btn-wa-send" id="btnWa" onclick="sendToWhatsApp()">
+                        <span>💬</span> Kirim ke WhatsApp
+                    </button>
+                </div>
+
+                <!-- TAB 4: PANEL MUSIK -->
+                <div class="sheet-tab-panel" id="panel-music">
+                    <h2>🎵 Pengaturan Musik</h2>
+                    <div class="music-panel-box">
+                        <div class="music-disc-large" id="largeDisc">💿</div>
+                        <button class="btn-music-control" id="musicCtrlBtn" onclick="toggleMusic()">Jeda Musik ⏸️</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+      <script src="script.js"></script>
+</body>
+</html>
