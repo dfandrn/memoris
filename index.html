@@ -1,229 +1,297 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Our Secret Gallery Book 📖💙</title>
-      <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Our Secret Gallery 💙</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
  
 </head>
-<body onclick="createTapHeart(event)">
+<body>
 
-    <audio id="albumMusic" loop src="musik.mp3"></audio>
-    <div class="decorations" id="decorationsArea"></div>
+<audio id="albumMusic"></audio>
+<div class="stars" id="starsArea"></div>
+<div id="ambientC" style="position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden;"></div>
+<div id="rainC" style="position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden;"></div>
+<div id="loveBurst" style="position:fixed;inset:0;pointer-events:none;z-index:50;"></div>
 
-    <!-- TAMPILAN AWAL: AMPLOP -->
-    <div class="intro-container" id="introWrapper">
-        <div class="envelope-flap" id="flap"></div>
-        <div class="envelope" onclick="openEnvelope()">
-            <span class="envelope-text">Ketuk untuk Buka Surat 💌</span>
-        </div>
-        <div class="letter" id="letterContent">
-            <h3>For My Favorite Person ✨</h3>
-            <p>Aku kumpulin semua pap kiriman kamu di satu tempat rahasia ini biar gak bakal hilang selamanya. Buka yuk!</p>
-            <button class="btn-open-album" onclick="startApp()">Buka Album Buku 📖</button>
-        </div>
+<!-- ════ LOGIN ════ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="lockout-panel" id="lockoutPanel">
+      <div style="font-size:2.5rem">🔒</div>
+      <div class="lockout-timer" id="lockoutTimer">5:00</div>
+      <div class="lockout-msg">Terlalu banyak percobaan salah.<br>Coba lagi setelah hitungan mundur selesai.</div>
+    </div>
+    <div class="login-lock">🔐</div>
+    <div class="login-title">Secret Gallery</div>
+    <div class="login-sub">Masukkan PIN Akses</div>
+    <div class="login-last" id="loginLast"></div>
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
+    </div>
+    <div class="numpad">
+      <div class="num-btn" onclick="numPress('1')">1</div>
+      <div class="num-btn" onclick="numPress('2')">2<div class="num-sub">ABC</div></div>
+      <div class="num-btn" onclick="numPress('3')">3<div class="num-sub">DEF</div></div>
+      <div class="num-btn" onclick="numPress('4')">4<div class="num-sub">GHI</div></div>
+      <div class="num-btn" onclick="numPress('5')">5<div class="num-sub">JKL</div></div>
+      <div class="num-btn" onclick="numPress('6')">6<div class="num-sub">MNO</div></div>
+      <div class="num-btn" onclick="numPress('7')">7<div class="num-sub">PQRS</div></div>
+      <div class="num-btn" onclick="numPress('8')">8<div class="num-sub">TUV</div></div>
+      <div class="num-btn" onclick="numPress('9')">9<div class="num-sub">WXYZ</div></div>
+      <div class="num-btn" style="background:transparent;border-color:transparent;pointer-events:none;"></div>
+      <div class="num-btn" onclick="numPress('0')">0</div>
+      <div class="num-btn del-btn" onclick="numDelete()">⌫</div>
+    </div>
+    <div class="attempts-bar" id="attemptsBar"><span id="attemptsText"></span></div>
+    <div class="change-pw-link" onclick="openChangePw()">Ganti PIN Akses 🔑</div>
+  </div>
+</div>
+
+<!-- CHANGE PIN MODAL -->
+<div class="modal-overlay" id="changePwModal" onclick="closePwModal()">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <h3>🔑 Ganti PIN</h3>
+    <p>Masukkan PIN lama lalu set PIN baru 4 digit.</p>
+    <input class="modal-input" type="password" inputmode="numeric" maxlength="4" id="oldPinInput" placeholder="PIN lama">
+    <input class="modal-input" type="password" inputmode="numeric" maxlength="4" id="newPinInput" placeholder="PIN baru (4 digit)">
+    <input class="modal-input" type="password" inputmode="numeric" maxlength="4" id="confirmPinInput" placeholder="Konfirmasi PIN baru">
+    <div class="modal-err" id="modalErr"></div>
+    <div class="modal-btns">
+      <button class="modal-btn cancel" onclick="closePwModal()">Batal</button>
+      <button class="modal-btn confirm" onclick="doChangePin()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-emoji">💙</div>
+  <div class="success-text">Selamat Datang!</div>
+  <div class="success-sub" id="successSub">Membuka album rahasia...</div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-close" onclick="closeLightbox()">✕</div>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="" onclick="event.stopPropagation()">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+  <div class="lightbox-nav" onclick="event.stopPropagation()">
+    <div class="lb-nav-btn" onclick="lightboxPrev()">◀ Prev</div>
+    <div class="lb-nav-btn" onclick="lightboxNext()">Next ▶</div>
+  </div>
+</div>
+
+<!-- ════ MAIN APP ════ -->
+<div class="book-container" id="bookBox">
+  <div class="header-bar">
+    <div class="navigation-bar">
+      <button class="nav-btn active-nav" id="nav-1" onclick="jumpToPageWithLoading(1)">📸 Harian</button>
+      <button class="nav-btn" id="nav-2" onclick="jumpToPageWithLoading(2)">👩‍❤️‍👨 Fotbar</button>
+      <button class="nav-btn" id="nav-3" onclick="jumpToPageWithLoading(3)">🗺️ Jalan</button>
+      <button class="nav-btn" id="nav-4" onclick="jumpToPageWithLoading(4)">🎬 Video</button>
+    </div>
+    <div class="top-menu-btn" onclick="openBottomSheet()">⚙️</div>
+  </div>
+  <div class="book">
+    <div class="layer-loader" id="layerLoader"><div class="heart-spinner">💙</div><div style="color:#38bdf8;font-size:.75rem;margin-top:8px;font-weight:700;">Membuka Memori...</div></div>
+
+    <!-- COVER DEPAN — page-0 -->
+    <div class="page cover-front active-page" id="page-0" onclick="bookNextPage()">
+      <div class="cover-sparkle" id="coverSparkle"></div>
+      <div class="cover-edition">Edisi Spesial • Private</div>
+      <h1>Our Visual Diary</h1>
+      <div class="book-icon">💙</div>
+      <div class="name-tag-box"><h2 class="brand-title">DARA</h2></div>
+      <div style="margin-top:18px;opacity:.28;font-size:.62rem;color:#f8fafc;letter-spacing:1.5px;">✨ Memory Connected ✨</div>
+      <p class="page-hint">Ketuk untuk Membuka Album ➔</p>
     </div>
 
-    <!-- CONTAINER UTAMA BUKU -->
-    <div class="book-container" id="bookBox">
-        
-        <!-- HEADER ATAS (NAVIGASI & TOMBOL SETTING) -->
-        <div class="header-bar" id="topNavHeader">
-            <div class="navigation-bar">
-                <button class="nav-btn active-nav" id="nav-1" onclick="jumpToPageWithLoading(1)">📸 Harian</button>
-                <button class="nav-btn" id="nav-2" onclick="jumpToPageWithLoading(2)">👩‍❤️‍👨 Fotbar</button>
-                <button class="nav-btn" id="nav-3" onclick="jumpToPageWithLoading(3)">🗺️ Jalan</button>
-            </div>
-            <!-- Tombol Menu Setting Modern -->
-            <div class="top-menu-btn" onclick="openBottomSheet()">⚙️</div>
-        </div>
-
-        <div class="book">
-            <!-- LAYER LOADING INTERNAL -->
-            <div class="layer-loader" id="layerLoader">
-                <div class="heart-spinner">💙</div>
-                <div class="loader-text">Membuka Memori...</div>
-            </div>
-            
-            <!-- COVER DEPAN -->
-            <div class="page cover-front active-page" id="page-0" onclick="bookNextPage()">
-                <div style="background: rgba(255,255,255,0.05); padding: 4px 14px; border-radius: 30px; font-size: 0.7rem; color: #94a3b8; letter-spacing: 1px; margin-bottom: 10px;">Edisi Spesial</div>
-                <h1>Our Visual Diary</h1>
-                <div class="book-icon">💙</div>
-                
-                <!-- Label Nama Pekat Ber-shadow -->
-                <div class="name-tag-box">
-                    <h2 class="brand-title">DARA</h2>
-                </div>
-
-                <div style="margin-top: 25px; display: flex; gap: 8px; opacity: 0.5;">
-                    <span style="font-size: 0.75rem; color: #f8fafc;">✨ Memory Connected ✨</span>
-                </div>
-
-                <p class="page-hint" style="margin-top: 35px;">Ketuk untuk Membuka Album ➔</p>
-            </div>
-
-            <!-- HALAMAN 1: HARIAN -->
-            <div class="page page-inside" id="page-1">
-                <h2>🌸 Foto Harian</h2>
-                <div class="photo-horizontal-container">
-                    <div class="photo-track" id="track1">
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://raw.githubusercontent.com/dfandrn/untukkamumutiara/main/IMG-20260613-WA0081.jpg"></div><div class="polaroid-caption">Senyum harian favoritku 1 🤍</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://raw.githubusercontent.com/dfandrn/untukkamumutiara/main/IMG-20260613-WA0082.jpg"></div><div class="polaroid-caption">Pap tercantik hari ini! 2 🥰</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://raw.githubusercontent.com/dfandrn/untukkamumutiara/main/IMG-20260613-WA0083.jpg"></div><div class="polaroid-caption">Gemesnya ga ada tanding 3 ✨</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://raw.githubusercontent.com/dfandrn/untukkamumutiara/main/IMG-20260613-WA0084.jpg"></div><div class="polaroid-caption">Moodbooster terbaikku 4 🌸</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://raw.githubusercontent.com/dfandrn/untukkamumutiara/main/IMG-20260613-WA0085.jpg"></div><div class="polaroid-caption">Lagi apa ya sekarang? 5 🤔</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Cantiknya konsisten 6 🔋</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Bagian favorit dari hariku 7 🧸</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Gak bosen liatinnya 8 💕</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Dunia indah kalau ada kamu 9 🪐</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Penutup hari yang manis 10 🌙</div></div>
-                    </div>
-                </div>
-                <div class="slider-dots" id="dots-container-1">
-                    <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
-                    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
-                </div>
-                <p class="swipe-info">◄ Geser Kanan/Kiri pada Foto ►</p>
-                <div class="page-edge-trigger edge-left" onclick="bookPrevPage()">◀</div>
-                <div class="page-edge-trigger edge-right" onclick="bookNextPage()">▶</div>
-            </div>
-
-            <!-- HALAMAN 2: FOTBAR -->
-            <div class="page page-inside" id="page-2">
-                <h2>✨ Foto Fotbar</h2>
-                <div class="photo-horizontal-container">
-                    <div class="photo-track" id="track2">
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Pas berdua duniaku lengkap 1 🔋</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Gemesnya barengan terus 2 🎀</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Momen seru bareng kamu 3 🍕</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Saling melengkapi selalu 4 🧩</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Tertawa bareng itu candu 5 😂</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Kompak terus ya kita 6 🤝</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Satu frame penuh cinta 7 ❤️</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Kenangan manis tersimpan 8 📸</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Foto favorit sepanjang masa 9 🏆</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Selamanya mau gini terus 10 🔐</div></div>
-                    </div>
-                </div>
-                <div class="slider-dots" id="dots-container-2">
-                    <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
-                    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
-                </div>
-                <p class="swipe-info">◄ Geser Kanan/Kiri pada Foto ►</p>
-                <div class="page-edge-trigger edge-left" onclick="bookPrevPage()">◀</div>
-                <div class="page-edge-trigger edge-right" onclick="bookNextPage()">▶</div>
-            </div>
-
-            <!-- HALAMAN 3: JALAN JALAN -->
-            <div class="page page-inside" id="page-3">
-                <h2>🗺️ Foto Jalan-Jalan</h2>
-                <div class="photo-horizontal-container">
-                    <div class="photo-track" id="track3">
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Petualangan seru bareng kamu 1 🚀</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Tempat terbaik di sampingmu 2 🪐</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Menjelajahi dunia berdua 3 🗺️</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Setiap perjalanan berkesan 4 🌄</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Jalan-jalan penuh tawa 5 🍦</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Dunia terasa lebih luas 6 🗺️</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Momen indah di luar sana 7 🎡</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Menikmati sore hari indah 8 🌇</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Gak mau jalurnya berakhir 9 🛣️</div></div>
-                        <div class="polaroid-frame"><div class="image-container-fix"><img src="https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg"></div><div class="polaroid-caption">Next trip ke mana lagi? 10 ✈️</div></div>
-                    </div>
-                </div>
-                <div class="slider-dots" id="dots-container-3">
-                    <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
-                    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
-                </div>
-                <p class="swipe-info">◄ Geser Kanan/Kiri pada Foto ►</p>
-                <div class="page-edge-trigger edge-left" onclick="bookPrevPage()">◀</div>
-                <div class="page-edge-trigger edge-right" onclick="bookNextPage()">▶</div>
-            </div>
-
-            <!-- HALAMAN 4: COVER BELAKANG -->
-            <div class="page cover-back" id="page-4">
-                <div class="salting-box">💓</div>
-                <h3 class="salting-text">Kamu Tahu Gak?</h3>
-                <p style="font-size: 0.85rem; line-height: 1.5; color: #f8fafc; padding: 0 10px;">
-                    "Tiap kali kamu kirim pap, duniaku mendadak berhenti berputar sebentar, soalnya fokusku langsung pindah ke senyuman kamu semua... 🥰"
-                </p>
-                <div class="date-badge">Dibuat Berdua Penuh Cinta 📅</div>
-                <div class="page-edge-trigger edge-left" onclick="bookPrevPage()" style="background: rgba(255,255,255,0.1); color: #38bdf8;">◀</div>
-            </div>
-
-        </div>
+    <!-- PAGE 1: HARIAN -->
+    <div class="page page-inside" id="page-1">
+      <div class="page-header"><h2>🌸 Foto Harian</h2><div class="photo-counter" id="counter-1">1 / 10</div></div>
+      <div class="photo-horizontal-container"><div class="photo-track" id="track1"></div></div>
+      <div class="slider-dots" id="dots-container-1"></div>
+      <p class="swipe-info">◄ Geser • Ketuk Foto untuk Perbesar ►</p>
+      <div class="page-edge-trigger edge-left" onclick="bookPrevPage()">◀</div>
+      <div class="page-edge-trigger edge-right" onclick="bookNextPage()">▶</div>
     </div>
 
-    <!-- OVERLAY & BOTTOM SHEET POPUP MODERN GLASSMORPHISM -->
-    <div class="bottom-sheet-overlay" id="sheetOverlay" onclick="closeBottomSheet()">
-        <div class="bottom-sheet" onclick="event.stopPropagation()">
-            <div class="sheet-handle"></div>
-            
-            <!-- NAVIGASI PIL MODEREN DI DALAM POPUP -->
-            <div class="sheet-nav">
-                <div class="sheet-nav-item active-tab" id="tab-time" onclick="switchSheetTab('time')">⏳ Hari</div>
-                <div class="sheet-nav-item" id="tab-list" onclick="switchSheetTab('list')">📝 List</div>
-                <div class="sheet-nav-item" id="tab-pap" onclick="switchSheetTab('pap')">📲 Pap</div>
-                <div class="sheet-nav-item" id="tab-music" onclick="switchSheetTab('music')">🎵 Musik</div>
-            </div>
-
-            <!-- KONTEN INTERNAL POPUP -->
-            <div class="sheet-content-wrapper">
-                
-                <!-- TAB 1: COUNTDOWN -->
-                <div class="sheet-tab-panel active-panel" id="panel-time">
-                    <h2>⏳ Waktu Kebersamaan</h2>
-                    <div class="counter-wrapper">
-                        <div class="counter-card"><span class="counter-lbl">Hari Berdua</span><span class="counter-val" id="c-days">00</span></div>
-                        <div class="counter-card"><span class="counter-lbl">Jam</span><span class="counter-val" id="c-hours">00</span></div>
-                        <div class="counter-card"><span class="counter-lbl">Menit</span><span class="counter-val" id="c-mins">00</span></div>
-                        <div class="counter-card"><span class="counter-lbl">Detik</span><span class="counter-val" id="c-secs">00</span></div>
-                    </div>
-                </div>
-
-                <!-- TAB 2: BUCKET LIST -->
-                <div class="sheet-tab-panel" id="panel-list">
-                    <h2>📝 Our Love Bucket List</h2>
-                    <div class="bucket-container">
-                        <div class="bucket-item" onclick="toggleCheck(this)"><input type="checkbox"> <span>Nonton bioskop drakor berdua 🎬</span></div>
-                        <div class="bucket-item" onclick="toggleCheck(this)"><input type="checkbox"> <span>Nyobain es krim rasa unik viral 🍦</span></div>
-                        <div class="bucket-item" onclick="toggleCheck(this)"><input type="checkbox"> <span>Jalan sore menikmati sunset di pantai 🌅</span></div>
-                        <div class="bucket-item" onclick="toggleCheck(this)"><input type="checkbox"> <span>Masak makanan kesukaan bareng 🍳</span></div>
-                        <div class="bucket-item" onclick="toggleCheck(this)"><input type="checkbox"> <span>Foto box gaya lucu/gemes 📸</span></div>
-                    </div>
-                </div>
-
-                <!-- TAB 3: KIRIM PAP -->
-                <div class="sheet-tab-panel" id="panel-pap">
-                    <h2>📲 Kirim Pap Instan</h2>
-                    <div class="upload-zone" onclick="triggerFileSelect()">
-                        <span style="font-size: 1.5rem;">🖼️</span>
-                        <span style="font-size: 0.8rem; color: #38bdf8; font-weight: bold;">Pilih Foto dari Galeri</span>
-                        <input type="file" id="photoInput" accept="image/*" style="display: none;" onchange="handlePhotoSelect(event)">
-                    </div>
-                    <div class="preview-box" id="previewContainer">
-                        <img id="imgPreview" src="" alt="Preview Pap">
-                    </div>
-                    <button class="btn-wa-send" id="btnWa" onclick="sendToWhatsApp()">
-                        <span>💬</span> Kirim ke WhatsApp
-                    </button>
-                </div>
-
-                <!-- TAB 4: PANEL MUSIK -->
-                <div class="sheet-tab-panel" id="panel-music">
-                    <h2>🎵 Pengaturan Musik</h2>
-                    <div class="music-panel-box">
-                        <div class="music-disc-large" id="largeDisc">💿</div>
-                        <button class="btn-music-control" id="musicCtrlBtn" onclick="toggleMusic()">Jeda Musik ⏸️</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+    <!-- PAGE 2: FOTBAR -->
+    <div class="page page-inside" id="page-2">
+      <div class="page-header"><h2>✨ Foto Fotbar</h2><div class="photo-counter" id="counter-2">1 / 10</div></div>
+      <div class="photo-horizontal-container"><div class="photo-track" id="track2"></div></div>
+      <div class="slider-dots" id="dots-container-2"></div>
+      <p class="swipe-info">◄ Geser • Ketuk Foto untuk Perbesar ►</p>
+      <div class="page-edge-trigger edge-left" onclick="bookPrevPage()">◀</div>
+      <div class="page-edge-trigger edge-right" onclick="bookNextPage()">▶</div>
     </div>
-    
+
+    <!-- PAGE 3: JALAN -->
+    <div class="page page-inside" id="page-3">
+      <div class="page-header"><h2>🗺️ Foto Jalan-Jalan</h2><div class="photo-counter" id="counter-3">1 / 10</div></div>
+      <div class="photo-horizontal-container"><div class="photo-track" id="track3"></div></div>
+      <div class="slider-dots" id="dots-container-3"></div>
+      <p class="swipe-info">◄ Geser • Ketuk Foto untuk Perbesar ►</p>
+      <div class="page-edge-trigger edge-left" onclick="bookPrevPage()">◀</div>
+      <div class="page-edge-trigger edge-right" onclick="bookNextPage()">▶</div>
+    </div>
+
+        <!-- PAGE 4: VIDEO -->
+    <div class="page page-video" id="page-4">
+      <div class="page-header">
+        <h2>🎬 Album Video</h2>
+        <div class="photo-counter" id="counter-video" style="background:rgba(56,189,248,.1);color:#38bdf8;">1 / 5</div>
+      </div>
+      <div class="video-slider-container">
+        <div class="video-track" id="videoTrack"></div>
+        <!-- Overlay untuk menangkap swipe (di atas iframe) -->
+        <div class="video-touch-overlay" id="videoOverlay"></div>
+        <!-- Tombol navigasi prev/next -->
+        <div class="video-nav-btn video-nav-prev" onclick="videoNav(-1)">◀</div>
+        <div class="video-nav-btn video-nav-next" onclick="videoNav(1)">▶</div>
+        <!-- Tombol toggle kontrol video -->
+        <div class="video-ctrl-btn" id="videoCtrlBtn" onclick="toggleVideoControls()">🎮 Kontrol</div>
+      </div>
+      <div class="v-dots" id="vDots"></div>
+      <p class="v-swipe-info">◄ Geser Kanan/Kiri untuk Ganti Video ►</p>
+      <div class="page-edge-trigger edge-left" onclick="bookPrevPage()" style="background:rgba(56,189,248,.06);color:#38bdf8;">◀</div>
+      <div class="page-edge-trigger edge-right" onclick="bookNextPage()" style="background:rgba(56,189,248,.06);color:#38bdf8;">▶</div>
+    </div>
+
+
+    <!-- BACK COVER — page-5 -->
+    <div class="page cover-back" id="page-5">
+      <div style="font-size:3.2rem;margin-bottom:7px;">💓</div>
+      <div class="salting-text">Kamu Tahu Gak?</div>
+      <p style="font-size:.82rem;line-height:1.6;color:#e2e8f0;padding:0 10px;">"Tiap kali kamu kirim pap, duniaku mendadak berhenti sebentar — karena fokusku langsung pindah ke senyumanmu... 🥰"</p>
+      <div style="margin-top:16px;font-size:.6rem;color:#1e293b;border-top:1px dashed rgba(255,255,255,.06);padding-top:9px;width:100%;text-align:center;">Dibuat Berdua Penuh Cinta 📅</div>
+      <div class="page-edge-trigger edge-left" onclick="bookPrevPage()" style="background:rgba(255,255,255,.07);color:#38bdf8;">◀</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ BOTTOM SHEET ════ -->
+<div class="bottom-sheet-overlay" id="sheetOverlay" onclick="closeBottomSheet()">
+  <div class="bottom-sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div class="sheet-nav">
+      <div class="sheet-nav-item active-tab" id="tab-home" onclick="switchSheetTab('home')">🏠 Home</div>
+      <div class="sheet-nav-item" id="tab-list" onclick="switchSheetTab('list')">📝 List</div>
+      <div class="sheet-nav-item" id="tab-pap" onclick="switchSheetTab('pap')">📲 Pap</div>
+      <div class="sheet-nav-item" id="tab-notes" onclick="switchSheetTab('notes')">💌 Notes</div>
+      <div class="sheet-nav-item" id="tab-music" onclick="switchSheetTab('music')">🎵 Musik</div>
+    </div>
+    <div class="sheet-content-wrapper">
+      <!-- HOME -->
+      <div class="sheet-tab-panel active-panel" id="panel-home">
+        <h2>⏳ Waktu Kebersamaan</h2>
+        <div class="flip-clock-row">
+          <div class="flip-unit"><div class="flip-card"><div class="flip-val" id="c-days">00</div></div><div class="flip-lbl">Hari</div></div>
+          <div class="flip-sep">:</div>
+          <div class="flip-unit"><div class="flip-card"><div class="flip-val" id="c-hours">00</div></div><div class="flip-lbl">Jam</div></div>
+          <div class="flip-sep">:</div>
+          <div class="flip-unit"><div class="flip-card"><div class="flip-val" id="c-mins">00</div></div><div class="flip-lbl">Menit</div></div>
+          <div class="flip-sep">:</div>
+          <div class="flip-unit"><div class="flip-card"><div class="flip-val" id="c-secs">00</div></div><div class="flip-lbl">Detik</div></div>
+        </div>
+        <div class="milestone-badge" id="milestoneBadge"></div>
+        <div class="quote-box" style="margin-top:10px;">
+          <div class="quote-text" id="quoteText">...</div>
+          <div class="quote-refresh" onclick="refreshQuote()">🔄 Quote baru</div>
+        </div>
+        <div class="mood-section">
+          <h3>💭 Mood kamu hari ini?</h3>
+          <div class="mood-row">
+            <div class="mood-btn" onclick="selectMood(this,'😍','Cinta')"><div class="mood-emoji">😍</div><div class="mood-lbl">Cinta</div></div>
+            <div class="mood-btn" onclick="selectMood(this,'😊','Senang')"><div class="mood-emoji">😊</div><div class="mood-lbl">Senang</div></div>
+            <div class="mood-btn" onclick="selectMood(this,'🥺','Kangen')"><div class="mood-emoji">🥺</div><div class="mood-lbl">Kangen</div></div>
+            <div class="mood-btn" onclick="selectMood(this,'😴','Ngantuk')"><div class="mood-emoji">😴</div><div class="mood-lbl">Ngantuk</div></div>
+            <div class="mood-btn" onclick="selectMood(this,'🥰','Bahagia')"><div class="mood-emoji">🥰</div><div class="mood-lbl">Bahagia</div></div>
+          </div>
+          <div class="mood-history" id="moodHistory"></div>
+        </div>
+        <div style="margin-top:11px;">
+          <div class="toggle-row"><span class="toggle-label">🌧️ Rain of Hearts</span><label class="toggle-switch"><input type="checkbox" id="toggleRain" onchange="toggleRain(this.checked)"><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><span class="toggle-label">✨ Cover Sparkle</span><label class="toggle-switch"><input type="checkbox" id="toggleSparkle" checked onchange="toggleSparkle(this.checked)"><span class="toggle-slider"></span></label></div>
+        </div>
+      </div>
+      <!-- LIST -->
+      <div class="sheet-tab-panel" id="panel-list">
+        <h2>📝 Love Bucket List</h2>
+        <div class="bucket-progress-bar"><div class="bucket-progress-fill" id="bpFill" style="width:0%"></div></div>
+        <div class="bucket-progress-text" id="bpText">0 / 0 selesai</div>
+        <div class="bucket-container" id="bucketContainer"></div>
+        <div class="bucket-add-row">
+          <input class="bucket-input" id="bucketInput" placeholder="Tambah wishlist baru...">
+          <div class="bucket-add-btn" onclick="addBucketItem()">+</div>
+        </div>
+      </div>
+      <!-- PAP -->
+      <div class="sheet-tab-panel" id="panel-pap">
+        <h2>📲 Kirim Pap Instan</h2>
+        <div class="upload-zone" onclick="triggerFileSelect()">
+          <span style="font-size:1.4rem">🖼️</span>
+          <span style="font-size:.75rem;color:#38bdf8;font-weight:600;">Pilih Foto dari Galeri</span>
+          <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhotoSelect(event)">
+        </div>
+        <div class="preview-box" id="previewContainer"><img id="imgPreview" src="" alt=""></div>
+        <input class="caption-input-wa" id="papCaption" placeholder="Tambah caption... (opsional)">
+        <button class="btn-wa-send" id="btnWa" onclick="sendToWhatsApp()"><span>💬</span> Kirim ke WhatsApp</button>
+      </div>
+      <!-- NOTES -->
+      <div class="sheet-tab-panel" id="panel-notes">
+        <h2>💌 Love Notes</h2>
+        <div class="notes-list" id="notesList"></div>
+        <div class="note-add-row">
+          <input class="note-input" id="noteInput" placeholder="Tulis pesan rahasia...">
+          <div class="note-add-btn" onclick="addNote()">💌</div>
+        </div>
+      </div>
+      <!-- MUSIK -->
+      <div class="sheet-tab-panel" id="panel-music">
+        <h2>🎵 Music Player</h2>
+        <div class="music-player">
+          <div class="music-disc" id="musicDisc"><div class="disc-inner">💿</div></div>
+          <div class="song-info"><div class="song-title" id="songTitle">— Pilih atau Tambah Lagu —</div><div class="song-artist">Our Secret Playlist 🎶</div></div>
+          <div class="eq-bars paused" id="eqBars">
+            <div class="eq-bar" style="--d:.4s;--delay:0s;--h:18px"></div><div class="eq-bar" style="--d:.6s;--delay:.1s;--h:14px"></div>
+            <div class="eq-bar" style="--d:.5s;--delay:.2s;--h:20px"></div><div class="eq-bar" style="--d:.7s;--delay:.05s;--h:12px"></div>
+            <div class="eq-bar" style="--d:.45s;--delay:.15s;--h:18px"></div><div class="eq-bar" style="--d:.55s;--delay:.3s;--h:16px"></div>
+            <div class="eq-bar" style="--d:.5s;--delay:.0s;--h:22px"></div><div class="eq-bar" style="--d:.65s;--delay:.2s;--h:14px"></div>
+          </div>
+          <div class="playlist-row" id="playlistRow"></div>
+          <div class="url-input-wrap">
+            <input class="url-input" id="urlInput" placeholder="Paste URL .mp3..." type="url">
+            <div class="url-add-btn" onclick="addUrlTrack()">+ Add</div>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-track" id="progressTrack" onclick="seekMusic(event)"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="progress-times"><span id="currentTime">0:00</span><span id="totalTime">0:00</span></div>
+          </div>
+          <div class="music-controls">
+            <div class="ctrl-btn" id="shuffleBtn" onclick="toggleShuffle()">🔀</div>
+            <div class="ctrl-btn" onclick="prevTrack()">⏮</div>
+            <div class="ctrl-btn play-pause-btn" id="playPauseBtn" onclick="toggleMusic()">▶</div>
+            <div class="ctrl-btn" onclick="nextTrack()">⏭</div>
+            <div class="ctrl-btn" id="repeatBtn" onclick="cycleRepeat()">🔁</div>
+            <div class="ctrl-btn" id="muteBtn" onclick="toggleMute()">🔊</div>
+          </div>
+          <div class="vol-row">
+            <span class="vol-icon">🔈</span>
+            <input class="vol-slider" type="range" min="0" max="100" value="80" id="volSlider" oninput="setVolume(this.value)">
+            <span class="vol-icon">🔊</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
       <script src="script.js"></script>
+      
 </body>
 </html>
