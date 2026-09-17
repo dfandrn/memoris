@@ -1,4 +1,4 @@
-// ══════════════════════════════════
+ // ══════════════════════════════════
 //  ⚙️  KONFIGURASI — EDIT DI SINI
 // ══════════════════════════════════
 const NOMOR_WA      = "6289526797014";
@@ -9,19 +9,30 @@ const DEFAULT_PIN   = "1234";
 const photoData = {
   1:[
     {src:"https://raw.githubusercontent.com/dfandrn/untukkamumutiara/main/IMG-20260613-WA0081.jpg",cap:"Senyum harian favoritku 1 🤍"},
-    {src:"https://raw.githubusercontent.com/dfandrn/untukkamumutiara/main/IMG-20260613-WA0082.jpg",cap:"Pap tercantik hari ini! 2 🥰"},
-    {src:"https://raw.githubusercontent.com/dfandrn/untukkamumutiara/main/IMG-20260613-WA0083.jpg",cap:"Gemesnya ga ada tanding 3 ✨"},
-    {src:"https://raw.githubusercontent.com/dfandrn/untukkamumutiara/main/IMG-20260613-WA0084.jpg",cap:"Moodbooster terbaikku 4 🌸"},
-    {src:"https://raw.githubusercontent.com/dfandrn/untukkamumutiara/main/IMG-20260613-WA0085.jpg",cap:"Lagi apa ya sekarang? 5 🤔"},
-    {src:"https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg",cap:"Cantiknya konsisten 6 🔋"},
-    {src:"https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg",cap:"Bagian favorit dari hariku 7 🧸"},
-    {src:"https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg",cap:"Gak bosen liatinnya 8 💕"},
-    {src:"https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg",cap:"Dunia indah kalau ada kamu 9 🪐"},
-    {src:"https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg",cap:"Penutup hari yang manis 10 🌙"},
+    {src:"https://raw.githubusercontent.com/dfandrn/img/main/426b7899-6d10-45ed-ba1b-442a3cff0b8b.jpeg",cap:"Pap tercantik hari ini! 2 🥰"},
+    {src:"https://raw.githubusercontent.com/dfandrn/img/main/1d4e2e79-300b-4727-aa32-796d09c78230.jpeg",cap:"Gemesnya ga ada tanding 3 ✨"},
+    {src:"https://raw.githubusercontent.com/dfandrn/img/main/1de5fe25-8d75-4e6a-ba89-0279d7c16c1c.jpeg",cap:"Moodbooster terbaikku 4 🌸"},
+    {src:"https://raw.githubusercontent.com/dfandrn/img/main/1f744123-163b-4b46-a54d-c76dd95bb164.jpeg",cap:"Lagi apa ya sekarang? 5 🤔"},
+    {src:"https://raw.githubusercontent.com/dfandrn/img/main/704fa4c9-68ec-4aad-ada0-21eef602149e.jpeg",cap:"Cantiknya konsisten 6 🔋"},
+    {src:"https://raw.githubusercontent.com/dfandrn/img/main/310b4306-132f-40b9-a386-a3826513362b.jpeg",cap:"Bagian favorit dari hariku 7 🧸"},
+    {src:"https://raw.githubusercontent.com/dfandrn/img/main/87a1c66b-808b-414d-9e87-5d2a364e33b2.jpeg",cap:"Gak bosen liatinnya 8 💕"},
+    {src:"https://raw.githubusercontent.com/dfandrn/img/main/37a3638e-e240-41e3-84ba-e98c6aa704bb.jpeg",cap:"Dunia indah kalau ada kamu 9 🪐"},
+    {src:"https://raw.githubusercontent.com/dfandrn/img/main/758b9e9d-3fb0-4bd0-ab70-98e96507b36e.jpeg",cap:"Penutup hari yang manis 10 🌙"},
+     {src:"https://raw.githubusercontent.com/dfandrn/img/main/89d54c52-b62b-4bac-a2f3-7b4e9e77a66c.jpeg",cap:"Penutup hari yang manis 11 🌙"},
+     {src:"https://raw.githubusercontent.com/dfandrn/img/main/57ddc07d-c55e-4df7-b733-c555e40aca49.jpeg",cap:"Penutup hari yang manis 12 🌙"},
+     {src:"https://raw.githubusercontent.com/dfandrn/img/main/58f3fb9c-e694-4dea-9efa-bb061a69b677.jpeg",cap:"Penutup hari yang manis 13 🌙"},
+     {src:"https://raw.githubusercontent.com/dfandrn/img/main/806922d7-cc4a-4aca-9945-ffdca24b871b.jpeg",cap:"Penutup hari yang manis 14 🌙"},
+     {src:"https://raw.githubusercontent.com/dfandrn/img/main/82190a51-0c49-4179-93f5-4919d5f42d5b.jpeg",cap:"Penutup hari yang manis 15 🌙"},
+     {src:"https://raw.githubusercontent.com/dfandrn/img/main/e91219df-247b-42b1-a4c3-cabb3a2eb684.jpeg",cap:"Penutup hari yang manis 16 🌙"},
+     {src:"https://raw.githubusercontent.com/dfandrn/img/main/e89f6586-73ab-4d91-bfdf-e922a820f25c.jpeg",cap:"Penutup hari yang manis 17 🌙"},
+     {src:"https://raw.githubusercontent.com/dfandrn/img/main/d0e3d9d6-1db3-4f46-88b0-845b7ae39ae4.jpeg",cap:"Penutup hari yang manis 18 🌙"},
+     {src:"https://raw.githubusercontent.com/dfandrn/img/main/c285841a-22eb-4dbf-a1b7-e8f3eb2e6f72.jpeg",cap:"Penutup hari yang manis 19 🌙"},
+     {src:"https://raw.githubusercontent.com/dfandrn/img/main/89d54c52-b62b-4bac-a2f3-7b4e9e77a66c.jpeg",cap:"Penutup hari yang manis 20 🌙"},
+     {src:"https://raw.githubusercontent.com/dfandrn/img/main/89d54c52-b62b-4bac-a2f3-7b4e9e77a66c.jpeg",cap:"Penutup hari yang manis 21 🌙"},
   ],
   2:[
-    {src:"https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg",cap:"Pas berdua duniaku lengkap 1 🔋"},
-    {src:"https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg",cap:"Gemesnya barengan terus 2 🎀"},
+    {src:"https://raw.githubusercontent.com/dfandrn/memoris/main/ce34e96b-af49-4a12-9af1-3ec90b353da1.jpeg",cap:"Pertama kali kita fotoboth 🫶 "},
+    {src:"https://raw.githubusercontent.com/dfandrn/img/main/7932bb61-a1cd-45f1-aea3-736ae4e179d9.jpeg",cap:"Gemesnya barengan terus 2"},
     {src:"https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg",cap:"Momen seru bareng kamu 3 🍕"},
     {src:"https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg",cap:"Saling melengkapi selalu 4 🧩"},
     {src:"https://cdn.jsdelivr.net/gh/dfandrn/Cokelat@main/IMG-20260614-WA0099.jpg",cap:"Tertawa bareng itu candu 5 😂"},
